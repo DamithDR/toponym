@@ -223,13 +223,13 @@ if __name__ == '__main__':
     parser.add_argument('--model_name', type=str, required=True, help='model_name')
     args = parser.parse_args()
 
-    tokenizer_mt = AutoTokenizer.from_pretrained(args.model_name, trust_remote_code=True)
+    tokenizer_mt = AutoTokenizer.from_pretrained('local_models/Meta-Llama-3.1-8B-Instruct', trust_remote_code=True)
     chat_template = get_chat_template()
     if chat_template:
         tokenizer_mt.chat_template = chat_template
     pipe = pipeline(
         "text-generation",
-        model=args.model_name,
+        model='local_models/Meta-Llama-3.1-8B-Instruct',
         model_kwargs={"torch_dtype": torch.bfloat16,
                       # "attn_implementation": "flash_attention_2" if str(args.model_name).__contains__(
                       #     'Phi-3') else None
@@ -238,6 +238,6 @@ if __name__ == '__main__':
         tokenizer=tokenizer_mt,
         trust_remote_code=True
     )
-    pipe.tokenizer.pad_token_id = pipe.tokenizer.eos_token_id
+    # pipe.tokenizer.pad_token_id = pipe.tokenizer.eos_token_id
     pipe.tokenizer.padding_side = 'left'
     run()
