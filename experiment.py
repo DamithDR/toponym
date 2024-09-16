@@ -140,6 +140,7 @@ def run():
             num_return_sequences=1,
             do_sample=True,
         )
+        print(answer)
         filefinal.write(answer[0]["generated_text"][-1]['content'])
         print(answer[0]["generated_text"][-1]['content'])
 
