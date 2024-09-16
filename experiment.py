@@ -135,7 +135,6 @@ def run():
             query,
             max_new_tokens=2048,
             temperature=0,
-            pad_token_id=pipe.model.config.eos_token_id,
             num_return_sequences=1,
             do_sample=True,
         )
