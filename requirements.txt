@@ -1,0 +1,11 @@
+langchain-community
+sentence_transformers
+chromadb
+numpy
+pandas
+PyYAML
+torch
+matplotlib
+langchain
+scikit-learn
+transformers
