@@ -138,7 +138,6 @@ def run():
             pad_token_id=pipe.model.config.eos_token_id,
             num_return_sequences=1,
             do_sample=True,
-            batch_size=args.batch_size
         )
         filefinal.write(answer)
         print(answer)
