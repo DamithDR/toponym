@@ -134,7 +134,7 @@ def run():
         answer = pipe(
             query,
             max_new_tokens=2048,
-            temperature=0,
+            temperature=0.1,
             num_return_sequences=1,
             do_sample=True,
         )
