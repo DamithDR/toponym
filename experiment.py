@@ -13,6 +13,7 @@ import torch
 import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.metrics import confusion_matrix, classification_report
+from tqdm import tqdm
 
 from transformers import pipeline, AutoTokenizer
 
@@ -39,11 +40,13 @@ def extract_words(sentence):
 
 import re
 
+
 def extract_word_after_slash(context):
     # Use regular expression to find all words after '/'
     pattern = re.compile(r'/(?P<word>\w+)')
     words = pattern.findall(context)
     return words
+
 
 def compare_contexts(original_context, predicted_context):
     original_words = extract_word_after_slash(original_context)
@@ -60,7 +63,6 @@ def compare_contexts(original_context, predicted_context):
         comparison_results.append((o_word, p_word, o_word == p_word))
 
     return comparison_results
-
 
 
 def run():
@@ -105,7 +107,7 @@ def run():
     retriever = vector_db.as_retriever(search_kwargs={"k": 2}, search_type="similarity")
     filefinal = open("a_predict.txt", "w", encoding='utf')
 
-    for sentence in sentences:
+    for sentence in tqdm(sentences, total=len(sentences)):
         cleansen = remove_name_entities(sentence)
         words = extract_words(sentence)
         docs = retriever.get_relevant_documents(cleansen)
@@ -138,8 +140,8 @@ def run():
             num_return_sequences=1,
             do_sample=True,
         )
-        filefinal.write(answer)
-        print(answer)
+        filefinal.write(answer[0]["generated_text"][-1]['content'])
+        print(answer[0]["generated_text"][-1]['content'])
 
     filefinal.close()
 
